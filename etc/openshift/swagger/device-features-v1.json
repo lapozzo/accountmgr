@@ -1,0 +1,543 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "Applications responsible to configure devices and expose current setup configuration.",
+		"version": "v1",
+		"title": "Device Features API",
+		"license": {
+			"name": "Copyrights 2019 - Sascar Tecnologia Automotiva S/A - Todos os Direitos Reservados",
+			"url": "https://www.sascar.com.br"
+		}
+	},
+	"host": "accountmgr-v1.backoffice-${ENV}.svc.cluster.local:8080",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "features-controller",
+			"description": "Features Controller"
+		}
+	],
+	"schemes": [
+		"http"
+	],
+	"paths": {
+		"/accountmgr/{deviceModel}": {
+			"get": {
+				"tags": [
+					"features-controller"
+				],
+				"summary": "Get features supported by a device model and command group",
+				"operationId": "getByProjectIdUsingGET",
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "deviceModel",
+						"in": "path",
+						"description": "deviceModel",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"LMU4230",
+							"LMU4233"
+						]
+					},
+					{
+						"name": "commandGroup",
+						"in": "query",
+						"description": "commandGroup",
+						"required": false,
+						"type": "string",
+						"default": "SETUP_UPDATE",
+						"enum": [
+							"SETUP_UPDATE",
+							"SETUP_QUERY",
+							"ACTUATION"
+						]
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/DefaultSetupParametrization"
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Accessory": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"name": {
+					"type": "string"
+				},
+				"port": {
+					"type": "integer",
+					"format": "int64"
+				}
+			},
+			"title": "Accessory"
+		},
+		"AddMac": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"mac": {
+					"type": "string"
+				}
+			},
+			"title": "AddMac"
+		},
+		"AnalogInputConnection": {
+			"type": "object",
+			"properties": {
+				"accessories": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Accessory"
+					}
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "AnalogInputConnection"
+		},
+		"AutomaticTransmission": {
+			"type": "object",
+			"properties": {
+				"activate": {
+					"type": "boolean"
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "AutomaticTransmission"
+		},
+		"Block": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "Block"
+		},
+		"BluetoothPair": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"mac": {
+					"type": "string"
+				}
+			},
+			"title": "BluetoothPair"
+		},
+		"DefaultSetupParametrization": {
+			"type": "object",
+			"properties": {
+				"addMac": {
+					"$ref": "#/definitions/AddMac"
+				},
+				"analogInputConnection": {
+					"$ref": "#/definitions/AnalogInputConnection"
+				},
+				"automaticTransmission": {
+					"$ref": "#/definitions/AutomaticTransmission"
+				},
+				"block": {
+					"$ref": "#/definitions/Block"
+				},
+				"bluetoothPair": {
+					"$ref": "#/definitions/BluetoothPair"
+				},
+				"drivingTime": {
+					"$ref": "#/definitions/DrivingTime"
+				},
+				"ignitionOffDriverLogoff": {
+					"$ref": "#/definitions/IgnitionOffDriverLogoff"
+				},
+				"inputConnection": {
+					"$ref": "#/definitions/InputConnection"
+				},
+				"inputSecurityMode": {
+					"$ref": "#/definitions/InputSecurityMode"
+				},
+				"lastPosition": {
+					"$ref": "#/definitions/LastPosition"
+				},
+				"lastSetup": {
+					"$ref": "#/definitions/LastSetup"
+				},
+				"outputActuate": {
+					"$ref": "#/definitions/OutputActuate"
+				},
+				"outputConnection": {
+					"$ref": "#/definitions/OutputConnection"
+				},
+				"outputSecurityMode": {
+					"$ref": "#/definitions/OutputSecurityMode"
+				},
+				"positionGprsSatellite": {
+					"$ref": "#/definitions/PositionGprsSatellite"
+				},
+				"positionIgnitionOff": {
+					"$ref": "#/definitions/PositionIgnitionOff"
+				},
+				"positionIgnitionOn": {
+					"$ref": "#/definitions/PositionIgnitionOn"
+				},
+				"removeAllMacs": {
+					"$ref": "#/definitions/RemoveAllMacs"
+				},
+				"removeMac": {
+					"$ref": "#/definitions/RemoveMac"
+				},
+				"reset": {
+					"$ref": "#/definitions/Reset"
+				},
+				"sendMessage": {
+					"$ref": "#/definitions/SendMessage"
+				},
+				"setNameBluetooth": {
+					"$ref": "#/definitions/SetNameBluetooth"
+				},
+				"setOdometer": {
+					"$ref": "#/definitions/SetOdometer"
+				},
+				"telemetry": {
+					"$ref": "#/definitions/Telemetry"
+				},
+				"temperature": {
+					"$ref": "#/definitions/Temperature"
+				},
+				"unblock": {
+					"$ref": "#/definitions/UnBlock"
+				}
+			},
+			"title": "DefaultSetupParametrization"
+		},
+		"DrivingTime": {
+			"type": "object",
+			"properties": {
+				"activate": {
+					"type": "boolean"
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "DrivingTime"
+		},
+		"IgnitionOffDriverLogoff": {
+			"type": "object",
+			"properties": {
+				"activate": {
+					"type": "boolean"
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "IgnitionOffDriverLogoff"
+		},
+		"InputConnection": {
+			"type": "object",
+			"properties": {
+				"accessories": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Accessory"
+					}
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "InputConnection"
+		},
+		"InputSecurityMode": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"ports": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Port"
+					}
+				}
+			},
+			"title": "InputSecurityMode"
+		},
+		"LastPosition": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "LastPosition"
+		},
+		"LastSetup": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "LastSetup"
+		},
+		"OutputActuate": {
+			"type": "object",
+			"properties": {
+				"activate": {
+					"type": "boolean"
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"port": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "OutputActuate"
+		},
+		"OutputConnection": {
+			"type": "object",
+			"properties": {
+				"accessories": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Accessory"
+					}
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "OutputConnection"
+		},
+		"OutputSecurityMode": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"ports": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Port"
+					}
+				}
+			},
+			"title": "OutputSecurityMode"
+		},
+		"Port": {
+			"type": "object",
+			"properties": {
+				"activate": {
+					"type": "boolean"
+				},
+				"id": {
+					"type": "integer",
+					"format": "int64"
+				}
+			},
+			"title": "Port"
+		},
+		"PositionGprsSatellite": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "PositionGprsSatellite"
+		},
+		"PositionIgnitionOff": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "PositionIgnitionOff"
+		},
+		"PositionIgnitionOn": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "PositionIgnitionOn"
+		},
+		"RemoveAllMacs": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "RemoveAllMacs"
+		},
+		"RemoveMac": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"mac": {
+					"type": "string"
+				}
+			},
+			"title": "RemoveMac"
+		},
+		"Reset": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "Reset"
+		},
+		"SendMessage": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"text": {
+					"type": "string"
+				}
+			},
+			"title": "SendMessage"
+		},
+		"Sensor": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"name": {
+					"type": "string"
+				}
+			},
+			"title": "Sensor"
+		},
+		"SetNameBluetooth": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"name": {
+					"type": "string"
+				}
+			},
+			"title": "SetNameBluetooth"
+		},
+		"SetOdometer": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"odometer": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "SetOdometer"
+		},
+		"Telemetry": {
+			"type": "object",
+			"properties": {
+				"activate": {
+					"type": "boolean"
+				},
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "Telemetry"
+		},
+		"Temperature": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				},
+				"sensors": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Sensor"
+					}
+				}
+			},
+			"title": "Temperature"
+		},
+		"UnBlock": {
+			"type": "object",
+			"properties": {
+				"index": {
+					"type": "integer",
+					"format": "int32"
+				}
+			},
+			"title": "UnBlock"
+		}
+	}
+}
